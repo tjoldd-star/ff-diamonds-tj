@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FF DIAMONDS TJ</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b12;color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:28px 12px;background:linear-gradient(135deg,#211323,#11111d)}
+h1{color:#ff365a;font-size:27px}
+header p{color:#ccc}
+main{max-width:650px;margin:auto;padding:16px}
+h2{margin-top:28px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:#191a25;border:1px solid #353646;border-radius:15px;padding:16px 10px;text-align:center}
+.gem{font-size:38px}
+.card h3{font-size:18px;min-height:42px}
+.price{font-size:20px;color:#ffd16c;font-weight:bold}
+button{background:#ff365a;color:white;border:0;padding:13px;border-radius:9px;font-weight:bold;width:100%;margin-top:12px}
+input,select{width:100%;padding:13px;margin:7px 0;background:#191a25;color:white;border:1px solid #444;border-radius:8px}
+label{font-size:14px;color:#ddd}
+.note{font-size:12px;color:#aaa;line-height:1.6}
+footer{text-align:center;padding:24px;color:#888}
+</style>
+</head>
+<body>
+<header>
+<h1>💎 FF DIAMONDS TJ</h1>
+<p>Магазин алмазов и ваучеров 🇹🇯</p>
+<p>Быстро • Удобно • Для Таджикистана</p>
+</header>
+<main>
+<h2>💎 Выбери пакет</h2>
+<div class="grid" id="diamonds"></div>
+
+<h2>🎟️ Ваучеры Free Fire</h2>
+<div class="grid" id="vouchers"></div>
+
+<h2>🛒 Оформить заказ</h2>
+<form id="order">
+<label for="product">Товар</label>
+<select id="product" required>
+<option value="">Выбери товар</option>
+</select>
+
+<label for="uid">UID игрока (для алмазов)</label>
+<input id="uid" inputmode="numeric" placeholder="Введи UID">
+
+<label for="telegram">Твой Telegram</label>
+<input id="telegram" placeholder="@username" required>
+
+<button type="submit">Продолжить заказ</button>
+</form>
+
+<p class="note">
+Заказ будет подготовлен для отправки в Telegram.
+Оплата и автоматическая выдача пока не подключены.
+Никогда не указывай пароль от игрового аккаунта.
+</p>
+</main>
+<footer>© FF DIAMONDS TJ</footer>
+
+<script>
+const diamonds=[
+{name:"100 алмазов",price:10},
+{name:"310 алмазов",price:25},
+{name:"520 алмазов",price:40},
+{name:"1060 алмазов",price:80}
+];
+
+const vouchers=[
+{name:"Weekly",price:null},
+{name:"Monthly",price:null},
+{name:"Level Up Pass",price:null},
+{name:"Код активации",price:null}
+];
+
+const priceText=p=>p===null?"Цена уточняется":p+" TJS";
+const selector=document.getElementById("product");
+
+function showProducts(products,container){
+const root=document.getElementById(container);
+products.forEach(p=>{
+const card=document.createElement("div");
+card.className="card";
+
+const gem=document.createElement("div");
+gem.className="gem";
+gem.textContent=container==="diamonds"?"💎":"🎟️";
+
+const name=document.createElement("h3");
+name.textContent=p.name;
+
+const price=document.createElement("div");
+price.className="price";
+price.textContent=priceText(p.price);
+
+const btn=document.createElement("button");
+btn.textContent="Выбрать";
+btn.onclick=()=>{
+selector.value=p.name;
+document.getElementById("order").scrollIntoView({behavior:"smooth"});
+};
+
+card.append(gem,name,price,btn);
+root.append(card);
+
+const option=document.createElement("option");
+option.value=p.name;
+option.textContent=p.name+" — "+priceText(p.price);
+selector.append(option);
+});
+}
+
+showProducts(diamonds,"diamonds");
+showProducts(vouchers,"vouchers");
+
+document.getElementById("order").addEventListener("submit",e=>{
+e.preventDefault();
+
+const product=selector.value;
+const uid=document.getElementById("uid").value.trim();
+const telegram=document.getElementById("telegram").value.trim();
+
+if(!product)return;
+
+const item=[...diamonds,...vouchers].find(p=>p.name===product);
+const message=[
+"🇹🇯 FF DIAMONDS TJ — ЗАКАЗ",
+"Товар: "+item.name,
+"Цена: "+priceText(item.price),
+"UID: "+(uid||"не указан"),
+"Telegram: "+telegram
+].join("\n");
+
+const url="https://t.me/share/url?url="+
+encodeURIComponent("https://t.me/")+
+"&text="+encodeURIComponent(message);
+
+window.location.href=url;
+});
+</script>
+</body>
+</html>
