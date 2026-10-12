@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FF DIAMONDS TJ</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b12;color:white;
+font-family:Arial,sans-serif}
+header{text-align:center;padding:25px 12px;
+background:linear-gradient(135deg,#310b16,#111827)}
+h1{color:#ff4057;margin-bottom:8px}
+header p{color:#ddd}
+main{max-width:700px;margin:auto;padding:16px}
+h2{margin-top:24px}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#171923;border:1px solid #303442;
+border-radius:14px;padding:16px;text-align:center}
+.gem{font-size:35px}
+.price{color:#ffd166;font-weight:bold}
+button{background:#ff4057;color:white;border:0;
+padding:12px;border-radius:9px;font-weight:bold;cursor:pointer}
+.card button{width:100%;margin-top:10px}
+form{margin-top:22px;background:#171923;
+padding:18px;border-radius:14px}
+input,select{width:100%;padding:13px;margin:8px 0 14px;
+border-radius:8px;border:1px solid #414454;
+background:#0b0b12;color:white}
+form button{width:100%}
+.note{font-size:13px;color:#b9bdc9;line-height:1.5}
+footer{text-align:center;color:#9ca3af;padding:25px}
+</style>
+</head>
+<body>
+<header>
+  <h1>💎 FF DIAMONDS TJ</h1>
+  <p>Магазин алмазов Free Fire 🇹🇯</p>
+  <p>Быстро • Удобно • Для Таджикистана</p>
+</header>
+
+<main>
+  <h2>💎 Выбери пакет</h2>
+  <div class="products">
+    <div class="card">
+      <div class="gem">💎</div>
+      <h3>100 алмазов</h3>
+      <p class="price">Цена уточняется</p>
+      <button onclick="choose('100 алмазов')">Выбрать</button>
+    </div>
+    <div class="card">
+      <div class="gem">💎</div>
+      <h3>310 алмазов</h3>
+      <p class="price">Цена уточняется</p>
+      <button onclick="choose('310 алмазов')">Выбрать</button>
+    </div>
+    <div class="card">
+      <div class="gem">💎</div>
+      <h3>520 алмазов</h3>
+      <p class="price">Цена уточняется</p>
+      <button onclick="choose('520 алмазов')">Выбрать</button>
+    </div>
+    <div class="card">
+      <div class="gem">💎</div>
+      <h3>1060 алмазов</h3>
+      <p class="price">Цена уточняется</p>
+      <button onclick="choose('1060 алмазов')">Выбрать</button>
+    </div>
+  </div>
+
+  <form onsubmit="order(event)">
+    <h2>🛒 Оформить заказ</h2>
+    <label>Выбранный пакет</label>
+    <select id="pack">
+      <option>100 алмазов</option>
+      <option>310 алмазов</option>
+      <option>520 алмазов</option>
+      <option>1060 алмазов</option>
+    </select>
+
+    <label>Твой игровой ID (UID)</label>
+    <input id="uid" inputmode="numeric"
+      placeholder="Введи игровой ID" required>
+
+    <label>Твой Telegram @username (необязательно)</label>
+    <input id="tg" placeholder="@username">
+
+    <button type="submit">Отправить заказ</button>
+    <p class="note">
+      Это демонстрационная версия. Оплата и выдача алмазов
+      пока не подключены. Никогда не вводи пароль от игрового
+      аккаунта или код подтверждения.
+    </p>
+  </form>
+</main>
+
+<footer>FF DIAMONDS TJ · Таджикистан</footer>
+
+<script>
+function choose(name){
+  document.getElementById('pack').value=name;
+  document.querySelector('form').scrollIntoView({
+    behavior:'smooth'
+  });
+}
+function order(e){
+  e.preventDefault();
+  const pack=document.getElementById('pack').value;
+  const uid=document.getElementById('uid').value.trim();
+  const tg=document.getElementById('tg').value.trim();
+
+  if(!/^\d+$/.test(uid)){
+    alert('Проверь игровой ID: нужны только цифры.');
+    return;
+  }
+
+  const message=
+    'Новый заказ FF DIAMONDS TJ%0A'+
+    'Пакет: '+encodeURIComponent(pack)+'%0A'+
+    'UID: '+encodeURIComponent(uid)+'%0A'+
+    'Telegram: '+encodeURIComponent(tg||'не указан');
+
+  alert('Демо-сайт: заказ сформирован. Для отправки подключи свой канал заказов.');
+}
+</script>
+</body>
+</html>
